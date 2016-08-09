@@ -29,7 +29,7 @@ inode中包含：文件的大小，UID，GID，读写权限，最近inode修改�
 * umount：取消挂载
 * diskutil：查看磁盘， 加list为看全部
 * ln：链接文件 ln A B ： B－》A， -s为软链接
-* 
+* traceroute url：显示在到达url前，经过的route
 
 ### 系统目录
 * /bin：所有用户的可执行文件
