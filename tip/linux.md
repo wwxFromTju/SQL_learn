@@ -30,6 +30,36 @@ inode中包含：文件的大小，UID，GID，读写权限，最近inode修改�
 * diskutil：查看磁盘， 加list为看全部
 * ln：链接文件 ln A B ： B－》A， -s为软链接
 * traceroute url：显示在到达url前，经过的route
+* df：磁盘信息
+* last：本用户的最近的登录时间和信息
+* alias a='xxx'：把xxx的别名设置为a，简化了输入
+* diff a b：显示a，b的不同
+* set：显示参数列表
+* du：显示磁盘的使用的空间和最后的修改时间
+* shutdown：关机
+* awk：通常用于文本过滤
+* sort：对文件进行排序，然后输出到标准输出流
+* export：设置export属性
+* su：切换用户
+* top：显示现在正在使用的进程的信息，从CPU占有率从高到低
+* chgrp：修改文件的用户组
+* groups：显示所有的用户组名
+* chmod：修改文件权限
+* chown：修改文件的拥有者
+* w：显示登录用户和他们在做什么
+* uname：显示用户信息，-a为全部
+* uptime：显示当前的时间和登录用户个数
+* users：显示当前的用户的信息
+* cmp：比较两个文件的不同，并显示第一个不同的行号
+* hostname：
+* ps：当前的进程信息
+* wc：显示每个文件的行数，单词数和字符数
+* jobs：显示当前的任务信息
+* which：定位一个命令的位置
+* where：定位一个文件...的位置
+* kill：杀掉进程, -9 马上杀掉
+* killall：马上杀掉所有进程
+
 
 ### 系统目录
 * /bin：所有用户的可执行文件
