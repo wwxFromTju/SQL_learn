@@ -8,8 +8,10 @@
 * FROM xx
 * WHERE xx
 * GROUP BY xx
-* HAVINF XX
-* ORDER BY xx
+* HAVING XX
+* ORDER BY xx 
+
+执行顺序：FROM 笛卡尔积， 然后WHERE筛选掉不符合的元组， 然后GROUP BY划分元组， HAVING筛选掉不符合的划分出来的元组，然后就是ORDER BY元组， 最后是SELECT投影。
 
 插入
 
@@ -35,7 +37,7 @@ CREATE TABLE xxx
 (
 xxx type （NOT） NULL DEFAULT xxx CHECK (要求 ),
 ...
-PRIMAEY KEY (....)
+PRIMARY KEY (....)
 FOREIGN KEY (...) REFERENCES 表名(...)
 )
 ```
@@ -52,7 +54,7 @@ WHERE ...
 更新表结构
 ```
 ALTER TABLE xxx
-ADD xxx type ....
+ADD COLUMN xxx type ....
 ADD FOREIGN KEY(...) REFERENCES 表名(...);
 ```
 ```
@@ -95,11 +97,52 @@ SAVEPOINT xxx(时间点)
 COMMIT/ROLLBACK;(或者ROLLBACK TO xxx时间点)
 ```
 
+创建用户
+```
+CREATE USER 用户名 IDENTIFIED BY '密码'
+```
+
+修改用户名
+```
+RENAME USER 旧用户名 TO新用户名
+```
+
+删除用户
+```
+DROP USER 用户名
+```
+
+显示访问权限
+```
+SHOW GRANTS FOR 用户名
+```
+
+赋权
+```
+GRANT 操作(select...) ON 数据库名.表名(*代表全部) TO 用户名
+```
+
+收回权限
+```
+REVOKE 操作(select...) ON 数据库名.表名(*代表全部) FROM 用户名
+```
+
+修改密码
+```
+SET PASSWORD FOR 用户名 = Password('新密码')
+```
+
+修改自己密码
+```
+SET PASSWORD = Password('新密码')
+```
+
+
 ### 检索数据
 
 ##### SQL不区分大小写，不只是select这类的关键字不区分大小写，包括表名，字段名也都不区分大小，但是建议关键字大写，然后其他和你创建的字段名一致最好，同时最好采用分行的方式进行书写。
 
-##### DISTINCT关键字应该放在第一个字段那里，效果为去掉重复的row
+##### DISTINCT关键字应该放在第一个字段那里，效果为去掉重复的row。 把DISTINCT换为ALL是显式地指定保留下重复的列。
 
 ##### 可以在SQL语句的后面加上LIMIT语句，可以限制选取出来的row的个数，默认是从头开始，可以配置OFFSET来设置从第几行往下开始选去，0为从头开始
 
@@ -110,7 +153,7 @@ COMMIT/ROLLBACK;(或者ROLLBACK TO xxx时间点)
 
 #####  默认SELECT出来的数据的顺序是不可以假设的，要明确指定之后才能确定。
 
-##### 可以通过 ORDER BY 语句指定排序的row，默认是升序排列，在字段后面加上 DESC 可以指定为下序排列（只影响加上去的字段，其他没有加的依旧是升序）。可以任意指定字段，可以选择没有SELECT出来的字段。可以同时指定多个排序的字段，优先级依次下降。
+##### 可以通过 ORDER BY 语句指定排序的row，默认是升序排列asc，在字段后面加上 DESC 可以指定为降序排列（只影响加上去的字段，其他没有加的依旧是升序）。可以任意指定字段，可以选择没有SELECT出来的字段。可以同时指定多个排序的字段，优先级依次下降。
 
 ##### 在 ORDER BY 的时候，可以指定字段名，也可以通过SELECT出来的位置信息来排序，选出字段从1开始计数
 
@@ -131,6 +174,8 @@ COMMIT/ROLLBACK;(或者ROLLBACK TO xxx时间点)
 ##### 使用 IN 来判断是否在相应的范围内， 比如 price in （ 100， 200 ）, 类似于简化的 OR , 对应 NOT IN 来判断是否不在里面
 
 ##### 使用 NOT 来否定后面的条件判断
+
+##### 如果使用嵌套查询，查询出一系列值，可以使用IN或者NOT IN来判断是否在里面， 如果是大小，不等之类的判断， 可以使用 > ALL(...) 比选出来的所有都大, > ANY(...)比选出来的任意一个都大。EXISTS 判断是否存在， NOT EXISTS：判断是否不存在。
 
 
 ### 用通配符进行过滤
@@ -172,7 +217,7 @@ COMMIT/ROLLBACK;(或者ROLLBACK TO xxx时间点)
 
 ### 汇总数据
 
-##### 通常出现了聚集函数，则不应该出现GROUP BY中没有字段
+##### 通常出现了聚集函数，则不应该出现GROUP BY中没有字段，而且不能直接在WHERE中使用聚合函数，如果需要使用数值的话，那么应该是嵌套查询出一个数值
 
 ##### 聚集函数 默认忽略 NULL
 * AVG 平均值
@@ -228,7 +273,7 @@ COMMIT/ROLLBACK;(或者ROLLBACK TO xxx时间点)
 
 ### 组合查询
 
-##### UNION 就是 或，类似在WHERE中使用 OR ，注意是按照位置进行 UNION 的，不是按照你 SELECT 出来的字段名，这个是默认去掉重复的行的，如果是使用 UNION ALL 是保留下来全部的行的
+##### UNION 就是 或，类似在WHERE中使用 OR ，注意是按照位置进行 UNION 的，不是按照你 SELECT 出来的字段名，这个是默认去掉重复的行的，如果是使用 UNION ALL 是保留下来全部的行的(MYSQY中不支持INTERSECT／EXCEPT）
 
 ##### 可以在最后的地方对整个结果进行排序
 
