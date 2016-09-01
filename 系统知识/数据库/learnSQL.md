@@ -1,4 +1,4 @@
-# SQL学习整理
+# SQL学习整理
 ## 相应知识点只适用于Mysql
 
 ### SQL 语句模版
@@ -253,14 +253,14 @@ SET PASSWORD = Password('新密码')
 
 ##### 表一 JOIN 表二 ON 条件，通过条件来筛选出来符合行，然后进行联结
 
-##### 通常情况下是使用 equijoin （等值联结）， 也叫 inner join（内联结）
+##### 通常情况下是使用 equal join （等值联结）， 也叫 inner join（内联结）
 
 ##### 多个表联结类似2个表，可以在 WHERE 语句中使用多个条件判断，但是这样效率很低，同样的结果也可以使用 IN 
 
 
 ### 创建高级联结
 
-##### self-join（自联结）， natural join（自然联结）， 外联结（outer join）
+##### self-join（自联结）， naturaljoin（自然联结）， 外联结（outer join）
 
 ##### self-join 就是同一张表之间的联结，这个时候应该使用别名，或者使用子查询
 
