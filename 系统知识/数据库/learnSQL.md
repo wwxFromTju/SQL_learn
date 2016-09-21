@@ -1,4 +1,5 @@
-# SQL学习整理
+# SQL学习整理
+
 ## 相应知识点只适用于Mysql
 
 ### SQL 语句模版
@@ -9,7 +10,8 @@
 * WHERE xx
 * GROUP BY xx
 * HAVING XX
-* ORDER BY xx 
+* ORDER BY xx
+* LIMIT XX OFFSET XX 
 
 执行顺序：FROM 笛卡尔积， 然后WHERE筛选掉不符合的元组， 然后GROUP BY划分元组， HAVING筛选掉不符合的划分出来的元组，然后就是ORDER BY元组， 最后是SELECT投影。
 
@@ -32,6 +34,7 @@ INSERT INTO Customers(col-name...) 这部分字段名可以省略，但是省略
 * WHERE xxx
 
 创建表
+
 ```
 CREATE TABLE xxx
 (
@@ -42,7 +45,15 @@ FOREIGN KEY (...) REFERENCES 表名(...)
 )
 ```
 
+查看表结构
+
+```
+SHOW COLUMNS FROM 表名
+```
+
+
 创建视图
+
 ```
 CREATE VIEW ... AS
 SELECT ...
@@ -52,28 +63,37 @@ WHERE ...
 ```
 
 更新表结构
+
 ```
 ALTER TABLE xxx
 ADD COLUMN xxx type ....
 ADD FOREIGN KEY(...) REFERENCES 表名(...);
 ```
+
 ```
 ALTER TABLE xxx
 DROP COLUMN xxx;
+
+增加外键
+ALTER TABLE XXX
+ADD CONSTRAINT 外键名 FOREIGN KEY(属性名) REFERENCES 表名(属性名)
 ```
 
 删除整个表
+
 ```
 DROP TABLE xxx;
 ```
 
 创建索引
+
 ```
 CREATE INDEX 索引名
 ON 表名（字段名...）
 ```
 
 创建触发器
+
 ```
 CREATE TRIGGER trigger_name
 trigger_time
@@ -88,6 +108,7 @@ trigger_event：INSERT，UPDATE，DELETE
 ```
 
 事务
+
 ```
 START TRANSACTION;
 ...
@@ -98,41 +119,49 @@ COMMIT/ROLLBACK;(或者ROLLBACK TO xxx时间点)
 ```
 
 创建用户
+
 ```
 CREATE USER 用户名 IDENTIFIED BY '密码'
 ```
 
 修改用户名
+
 ```
-RENAME USER 旧用户名 TO新用户名
+RENAME USER 旧用户名 TO 新用户名
 ```
 
 删除用户
+
 ```
 DROP USER 用户名
 ```
 
 显示访问权限
+
 ```
 SHOW GRANTS FOR 用户名
 ```
 
 赋权
+
 ```
 GRANT 操作(select...) ON 数据库名.表名(*代表全部) TO 用户名
 ```
 
 收回权限
+
 ```
 REVOKE 操作(select...) ON 数据库名.表名(*代表全部) FROM 用户名
 ```
 
 修改密码
+
 ```
 SET PASSWORD FOR 用户名 = Password('新密码')
 ```
 
 修改自己密码
+
 ```
 SET PASSWORD = Password('新密码')
 ```
@@ -260,7 +289,7 @@ SET PASSWORD = Password('新密码')
 
 ### 创建高级联结
 
-##### self-join（自联结）， naturaljoin（自然联结）， 外联结（outer join）
+##### self-join（自联结）， natural join（自然联结）， 外联结（outer join）
 
 ##### self-join 就是同一张表之间的联结，这个时候应该使用别名，或者使用子查询
 
